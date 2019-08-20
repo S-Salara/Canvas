@@ -1,0 +1,69 @@
+<!-- 物理小球测试实验 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			html, body{
+				margin:0;
+				padding: 0;
+			}
+			#canvasWrap{
+				margin:0 auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="canvasWrap">
+			<canvas id="canvas">
+				你的计算机不支持Canvas
+			</canvas>
+		</div>
+		<script type="text/javascript">
+			var WINDOW_WIDTH = 1024;
+			var WINDOW_HEIGHT = 768;
+			var MARGIN_TOP = 60;
+			var MARGIN_LEFT = 30;
+			
+			window.onload = function(){
+				var ball = {x:512, y:100, r:20, g:2, vx:-4, vy: -10, color:"#005588"};
+				var canvasWrap = document.getElementById("canvasWrap");
+			    var canvas = document.getElementById('canvas');
+			    var context = canvas.getContext("2d");
+				
+				canvasWrap.style.width = WINDOW_WIDTH + "px";
+			    canvas.width = WINDOW_WIDTH;
+			    canvas.height = WINDOW_HEIGHT;
+				
+				window.setInterval(function(){
+					render(context);
+					update();
+				}, 20);
+				
+				function update(){
+					ball.x += ball.vx;
+					ball.y += ball.vy;
+					ball.vy +=ball.g;
+					//碰撞检测
+					if(ball.y >= WINDOW_HEIGHT - ball.r){
+						ball.y = WINDOW_HEIGHT - ball.r;
+						//反弹后速度减少
+						ball.vy = -ball.vy* 0.6;
+					}
+				}
+				
+				function render(ctx){
+					ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+					ctx.fillStyle = ball.color;
+					ctx.beginPath();
+					ctx.arc(ball.x, ball.y, ball.r, 0, 2*Math.PI);
+					ctx.closePath();
+					
+					ctx.fill();
+				}
+			}
+			
+		</script>
+	</body>
+</html>
